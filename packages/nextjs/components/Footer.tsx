@@ -23,27 +23,15 @@ export const Footer = () => {
           {/* Brand */}
           <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
             <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-              <div
-                style={{
-                  width: "28px",
-                  height: "28px",
-                  background: "var(--blue)",
-                  borderRadius: "6px",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  fontSize: "0.85rem",
-                  fontWeight: 800,
-                  color: "white",
-                  fontFamily: "var(--font-heading)",
-                }}
-              >
-                Z
-              </div>
+              <img
+                src="/logo.png"
+                alt="TrustCert"
+                style={{ width: "28px", height: "28px", objectFit: "contain", filter: "invert(1)" }}
+              />
               <span
                 style={{ fontFamily: "var(--font-heading)", fontWeight: 700, color: "var(--text)", fontSize: "0.9rem" }}
               >
-                ZK Cert
+                TrustCert
               </span>
             </div>
             <p
@@ -124,7 +112,7 @@ export const Footer = () => {
             gap: "12px",
           }}
         >
-          <span style={{ color: "var(--text-muted)", fontSize: "0.8rem" }}>© 2026 ZK Cert — Hackathon Monad</span>
+          <span style={{ color: "var(--text-muted)", fontSize: "0.8rem" }}>© 2026 TrustCert — Hackathon Monad</span>
           <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
             <span
               style={{

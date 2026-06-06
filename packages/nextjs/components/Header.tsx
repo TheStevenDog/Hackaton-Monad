@@ -73,23 +73,17 @@ export const Header = () => {
       >
         {/* Logo */}
         <Link href="/" style={{ display: "flex", alignItems: "center", gap: "10px", textDecoration: "none" }}>
-          <div
+          <img
+            src="/logo.png"
+            alt="TrustCert"
             style={{
               width: "32px",
               height: "32px",
-              background: "var(--blue)",
-              borderRadius: "8px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              fontSize: "1rem",
-              fontWeight: 800,
-              color: "white",
-              fontFamily: "var(--font-heading)",
+              objectFit: "contain",
+              filter: "invert(1) drop-shadow(0 0 6px rgba(14,165,233,0.4))",
+              animation: "floatSlow 5s ease-in-out infinite",
             }}
-          >
-            Z
-          </div>
+          />
           <div>
             <div
               style={{
@@ -100,7 +94,7 @@ export const Header = () => {
                 lineHeight: 1.2,
               }}
             >
-              ZK Cert
+              TrustCert
             </div>
             <div
               style={{ fontFamily: "var(--font-body)", fontSize: "0.65rem", color: "var(--text-muted)", lineHeight: 1 }}

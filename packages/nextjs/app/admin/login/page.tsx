@@ -52,27 +52,15 @@ export default function AdminLoginPage() {
               marginBottom: "32px",
             }}
           >
-            <div
-              style={{
-                width: "40px",
-                height: "40px",
-                background: "var(--blue)",
-                borderRadius: "10px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                fontSize: "1.2rem",
-                fontWeight: 800,
-                color: "white",
-                fontFamily: "var(--font-heading)",
-              }}
-            >
-              Z
-            </div>
+            <img
+              src="/logo.png"
+              alt="TrustCert"
+              style={{ width: "44px", height: "44px", objectFit: "contain", filter: "invert(1)" }}
+            />
             <span
               style={{ fontFamily: "var(--font-heading)", fontWeight: 700, color: "var(--text)", fontSize: "1.1rem" }}
             >
-              ZK Cert
+              TrustCert
             </span>
           </Link>
           <h1

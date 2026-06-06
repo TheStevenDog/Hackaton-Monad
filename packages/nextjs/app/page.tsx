@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import type { NextPage } from "next";
+import { useScrollReveal } from "~~/hooks/useScrollReveal";
 
 const features = [
   {
@@ -37,35 +38,65 @@ const steps = [
 ];
 
 const Home: NextPage = () => {
+  useScrollReveal();
+
   return (
     <div style={{ background: "var(--navy-900)", fontFamily: "var(--font-body)" }}>
-      {/* Hero */}
+      {/* ── HERO ─────────────────────────────────────────────── */}
       <section
+        className="hero-bg"
         style={{
-          background: `linear-gradient(180deg, #060e1c 0%, #030810 100%)`,
+          background: "linear-gradient(180deg, #060e1c 0%, #030810 100%)",
           borderBottom: "1px solid var(--border)",
           paddingBottom: "80px",
         }}
       >
-        <div className="ent-container" style={{ paddingTop: "80px" }}>
+        <div className="ent-container" style={{ paddingTop: "80px", position: "relative", zIndex: 1 }}>
           <div className="fade-up" style={{ maxWidth: "720px" }}>
-            <div className="ent-badge" style={{ marginBottom: "24px" }}>
-              <span
+            {/* Brand logo + name */}
+            <div style={{ display: "flex", alignItems: "center", gap: "18px", marginBottom: "36px" }}>
+              <img
+                src="/logo.png"
+                alt="TrustCert"
+                className="logo-float"
                 style={{
-                  width: "6px",
-                  height: "6px",
-                  borderRadius: "50%",
-                  background: "#10b981",
-                  display: "inline-block",
+                  width: "72px",
+                  height: "72px",
+                  objectFit: "contain",
+                  filter: "invert(1) drop-shadow(0 0 16px rgba(14,165,233,0.5))",
                 }}
               />
-              Monad Testnet — En vivo
+              <div>
+                <div
+                  style={{
+                    fontFamily: "var(--font-heading)",
+                    fontWeight: 800,
+                    fontSize: "2rem",
+                    lineHeight: 1,
+                    background: "linear-gradient(135deg, #f1f5f9 30%, var(--cyan))",
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                  }}
+                >
+                  TrustCert
+                </div>
+                <div style={{ display: "flex", alignItems: "center", gap: "6px", marginTop: "6px" }}>
+                  <span
+                    className="dot-live"
+                    style={{ width: "7px", height: "7px", background: "#10b981", flexShrink: 0 }}
+                  />
+                  <span style={{ fontFamily: "var(--font-body)", fontSize: "0.8rem", color: "var(--text-muted)" }}>
+                    Monad Testnet — En vivo
+                  </span>
+                </div>
+              </div>
             </div>
 
             <h1
+              className="fade-up-2"
               style={{
                 fontFamily: "var(--font-heading)",
-                fontSize: "clamp(2.5rem, 5vw, 4rem)",
+                fontSize: "clamp(2.4rem, 5vw, 3.8rem)",
                 fontWeight: 800,
                 color: "var(--text)",
                 lineHeight: 1.1,
@@ -76,6 +107,7 @@ const Home: NextPage = () => {
             </h1>
 
             <p
+              className="fade-up-3"
               style={{
                 color: "var(--text-dim)",
                 fontSize: "1.1rem",
@@ -88,7 +120,7 @@ const Home: NextPage = () => {
               verificación instantánea y abierta para todos.
             </p>
 
-            <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
+            <div className="fade-up-4" style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
               <Link href="/certificate-verify" className="ent-btn-primary">
                 Verificar documento →
               </Link>
@@ -100,7 +132,7 @@ const Home: NextPage = () => {
 
           {/* Stats row */}
           <div
-            className="fade-up-3"
+            className="fade-up-4"
             style={{
               display: "grid",
               gridTemplateColumns: "repeat(3, 1fr)",
@@ -117,14 +149,25 @@ const Home: NextPage = () => {
               { value: "SHA-256", label: "Algoritmo de hash" },
               { value: "Monad", label: "Blockchain" },
               { value: "On-chain", label: "Almacenamiento" },
-            ].map(s => (
-              <div key={s.label} style={{ background: "var(--navy-800)", padding: "20px 24px" }}>
+            ].map((s, i) => (
+              <div
+                key={s.label}
+                className="scan-card"
+                style={{
+                  background: "var(--navy-800)",
+                  padding: "20px 24px",
+                  transition: "background 0.3s",
+                  animationDelay: `${i * 0.1}s`,
+                }}
+                onMouseEnter={e => (e.currentTarget.style.background = "var(--navy-700)")}
+                onMouseLeave={e => (e.currentTarget.style.background = "var(--navy-800)")}
+              >
                 <div
                   style={{
                     fontFamily: "var(--font-heading)",
                     fontWeight: 700,
                     fontSize: "1.1rem",
-                    color: "var(--text)",
+                    color: "var(--cyan)",
                   }}
                 >
                   {s.value}
@@ -136,26 +179,33 @@ const Home: NextPage = () => {
         </div>
       </section>
 
-      {/* Features */}
+      {/* ── FEATURES ─────────────────────────────────────────── */}
       <section className="ent-section">
         <div className="ent-container">
-          <div className="fade-up-2" style={{ marginBottom: "48px" }}>
+          <div className="reveal" style={{ marginBottom: "48px" }}>
             <div className="ent-badge" style={{ marginBottom: "16px" }}>
               Beneficios
             </div>
             <h2 style={{ fontFamily: "var(--font-heading)", fontSize: "2rem", fontWeight: 700, color: "var(--text)" }}>
-              Por qué usar ZK Cert
+              Por qué usar TrustCert
             </h2>
           </div>
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "20px" }}>
             {features.map((f, i) => (
-              <div
-                key={f.title}
-                className="ent-card fade-up"
-                style={{ padding: "28px", animationDelay: `${i * 0.1}s` }}
-              >
-                <div style={{ fontSize: "1.8rem", marginBottom: "16px" }}>{f.icon}</div>
+              <div key={f.title} className={`ent-card reveal stagger-${i + 1}`} style={{ padding: "28px" }}>
+                <div
+                  style={{
+                    fontSize: "2rem",
+                    marginBottom: "16px",
+                    display: "inline-block",
+                    transition: "transform 0.3s",
+                  }}
+                  onMouseEnter={e => (e.currentTarget.style.transform = "scale(1.2) rotate(-5deg)")}
+                  onMouseLeave={e => (e.currentTarget.style.transform = "scale(1) rotate(0deg)")}
+                >
+                  {f.icon}
+                </div>
                 <h3
                   style={{
                     fontFamily: "var(--font-heading)",
@@ -176,10 +226,10 @@ const Home: NextPage = () => {
 
       <div className="divider-line ent-container" />
 
-      {/* How it works */}
+      {/* ── HOW IT WORKS ─────────────────────────────────────── */}
       <section className="ent-section">
         <div className="ent-container">
-          <div className="fade-up" style={{ marginBottom: "48px" }}>
+          <div className="reveal" style={{ marginBottom: "48px" }}>
             <div className="ent-badge" style={{ marginBottom: "16px" }}>
               Proceso
             </div>
@@ -190,15 +240,27 @@ const Home: NextPage = () => {
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "20px" }}>
             {steps.map((s, i) => (
-              <div key={s.n} className="fade-up" style={{ animationDelay: `${i * 0.08}s` }}>
+              <div key={s.n} className={`reveal stagger-${i + 1}`} style={{ paddingTop: "4px" }}>
                 <div
+                  className="step-num"
                   style={{
                     fontFamily: "var(--font-heading)",
-                    fontSize: "2.5rem",
+                    fontSize: "2.8rem",
                     fontWeight: 800,
                     color: "var(--border-light)",
                     lineHeight: 1,
                     marginBottom: "16px",
+                    display: "inline-block",
+                    cursor: "default",
+                    transition: "color 0.3s, transform 0.3s",
+                  }}
+                  onMouseEnter={e => {
+                    (e.currentTarget as HTMLElement).style.color = "var(--cyan)";
+                    (e.currentTarget as HTMLElement).style.transform = "scale(1.08)";
+                  }}
+                  onMouseLeave={e => {
+                    (e.currentTarget as HTMLElement).style.color = "var(--border-light)";
+                    (e.currentTarget as HTMLElement).style.transform = "scale(1)";
                   }}
                 >
                   {s.n}
@@ -223,10 +285,11 @@ const Home: NextPage = () => {
 
       <div className="divider-line ent-container" />
 
-      {/* CTA */}
+      {/* ── CTA ──────────────────────────────────────────────── */}
       <section className="ent-section">
         <div className="ent-container">
           <div
+            className="reveal-scale"
             style={{
               background: "var(--navy-800)",
               border: "1px solid var(--border)",
@@ -236,8 +299,23 @@ const Home: NextPage = () => {
               flexDirection: "column",
               alignItems: "flex-start",
               gap: "24px",
+              position: "relative",
+              overflow: "hidden",
             }}
           >
+            {/* CTA background glow */}
+            <div
+              style={{
+                position: "absolute",
+                top: "-40px",
+                right: "-40px",
+                width: "300px",
+                height: "300px",
+                background: "radial-gradient(circle, rgba(37,99,235,0.08) 0%, transparent 70%)",
+                pointerEvents: "none",
+              }}
+            />
+
             <div className="ent-badge">Empezar ahora</div>
             <h2
               style={{

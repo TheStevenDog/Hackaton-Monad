@@ -1,5 +1,4 @@
 @import "tailwindcss";
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap');
 
 :root {
   --font-heading: 'Plus Jakarta Sans', sans-serif;
@@ -21,13 +20,83 @@
 }
 
 @keyframes fadeUp {
-  from { opacity: 0; transform: translateY(20px); }
+  from { opacity: 0; transform: translateY(24px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes shimmer {
   0%   { background-position: -200% center; }
   100% { background-position: 200% center; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-10px); }
+}
+
+@keyframes floatSlow {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  33%       { transform: translateY(-6px) rotate(1deg); }
+  66%       { transform: translateY(-3px) rotate(-1deg); }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.9) translateY(20px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+@keyframes slideLeft {
+  from { opacity: 0; transform: translateX(-32px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideRight {
+  from { opacity: 0; transform: translateX(32px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes borderGlow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(37,99,235,0); }
+  50%       { box-shadow: 0 0 28px rgba(37,99,235,0.25), 0 0 60px rgba(14,165,233,0.1); }
+}
+
+@keyframes gradientMove {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.6; transform: scale(0.95); }
+}
+
+@keyframes scanLine {
+  0%   { left: -60%; opacity: 0; }
+  20%  { opacity: 1; }
+  80%  { opacity: 1; }
+  100% { left: 110%; opacity: 0; }
+}
+
+@keyframes gridFade {
+  0%, 100% { opacity: 0.03; }
+  50%       { opacity: 0.07; }
+}
+
+@keyframes dotPulse {
+  0%, 100% { transform: scale(1); opacity: 0.4; }
+  50%       { transform: scale(1.5); opacity: 1; }
+}
+
+@keyframes numberPop {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+
+@keyframes shimmerBtn {
+  0%   { left: -100%; }
+  100% { left: 200%; }
 }
 
 @plugin "daisyui" {
@@ -191,11 +260,48 @@
   font-family: var(--font-heading);
 }
 
-.fade-up { animation: fadeUp 0.5s ease forwards; opacity: 0; }
-.fade-up-2 { animation: fadeUp 0.5s 0.1s ease forwards; opacity: 0; }
-.fade-up-3 { animation: fadeUp 0.5s 0.2s ease forwards; opacity: 0; }
-.fade-up-4 { animation: fadeUp 0.5s 0.3s ease forwards; opacity: 0; }
+.fade-up { animation: fadeUp 0.6s ease forwards; opacity: 0; }
+.fade-up-2 { animation: fadeUp 0.6s 0.12s ease forwards; opacity: 0; }
+.fade-up-3 { animation: fadeUp 0.6s 0.24s ease forwards; opacity: 0; }
+.fade-up-4 { animation: fadeUp 0.6s 0.36s ease forwards; opacity: 0; }
 
+/* Scroll-triggered reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-32px);
+  transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal-left.visible { opacity: 1; transform: translateX(0); }
+
+.reveal-scale {
+  opacity: 0;
+  transform: scale(0.92);
+  transition: opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1), transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal-scale.visible { opacity: 1; transform: scale(1); }
+
+/* Stagger delays for siblings */
+.stagger-1 { transition-delay: 0.05s !important; }
+.stagger-2 { transition-delay: 0.12s !important; }
+.stagger-3 { transition-delay: 0.19s !important; }
+.stagger-4 { transition-delay: 0.26s !important; }
+
+/* Logo float */
+.logo-float {
+  animation: floatSlow 5s ease-in-out infinite;
+  display: inline-block;
+}
+
+/* Shimmer text */
 .shimmer-text {
   background: linear-gradient(90deg, var(--text) 0%, var(--cyan) 40%, var(--blue) 60%, var(--text) 100%);
   background-size: 200% auto;
@@ -204,6 +310,128 @@
   background-clip: text;
   animation: shimmer 4s linear infinite;
 }
+
+/* Animated gradient heading */
+.gradient-text {
+  background: linear-gradient(135deg, var(--cyan), var(--blue), var(--text), var(--cyan));
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradientMove 6s ease infinite;
+}
+
+/* Enhanced cards */
+.ent-card {
+  position: relative;
+  overflow: hidden;
+}
+.ent-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(37,99,235,0.04) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+.ent-card:hover::before { opacity: 1; }
+.ent-card:hover {
+  border-color: rgba(37,99,235,0.4);
+  transform: translateY(-4px);
+  box-shadow: 0 24px 48px rgba(0,0,0,0.35), 0 0 0 1px rgba(37,99,235,0.15);
+}
+
+/* Button shimmer sweep on hover */
+.ent-btn-primary {
+  position: relative;
+  overflow: hidden;
+}
+.ent-btn-primary::after {
+  content: '';
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 40%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+  transform: skewX(-20deg);
+  left: -100%;
+  transition: none;
+}
+.ent-btn-primary:hover::after {
+  animation: shimmerBtn 0.55s ease forwards;
+}
+.ent-btn-primary:hover {
+  background: var(--blue-hover);
+  box-shadow: 0 8px 28px rgba(37,99,235,0.4);
+  transform: translateY(-2px);
+}
+.ent-btn-primary:active { transform: translateY(0); }
+
+.ent-btn-outline:hover {
+  background: var(--navy-700);
+  border-color: rgba(37,99,235,0.5);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+  transform: translateY(-2px);
+}
+
+/* Glow badge */
+.ent-badge {
+  animation: borderGlow 4s ease-in-out infinite;
+}
+
+/* Dot pulse indicators */
+.dot-live {
+  animation: dotPulse 2s ease-in-out infinite;
+  display: inline-block;
+  border-radius: 50%;
+}
+
+/* Hero animated background */
+.hero-bg {
+  position: relative;
+  overflow: hidden;
+}
+.hero-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(37,99,235,0.12) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 30% at 80% 60%, rgba(14,165,233,0.07) 0%, transparent 60%);
+  pointer-events: none;
+}
+.hero-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(30,58,95,0.25) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(30,58,95,0.25) 1px, transparent 1px);
+  background-size: 48px 48px;
+  animation: gridFade 6s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* Scan line on cards */
+.scan-card {
+  position: relative;
+  overflow: hidden;
+}
+.scan-card::after {
+  content: '';
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 60px;
+  background: linear-gradient(90deg, transparent, rgba(14,165,233,0.08), transparent);
+  animation: scanLine 5s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* Step number hover */
+.step-num {
+  transition: color 0.3s, transform 0.3s;
+}
+.step-num:hover { color: var(--cyan); transform: scale(1.05); }
 
 .divider-line {
   height: 1px;

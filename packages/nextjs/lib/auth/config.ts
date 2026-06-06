@@ -32,7 +32,7 @@ export const ADMIN_USERS: AdminUser[] = [
   },
 ];
 
-export const SESSION_KEY = "zkcert_admin_session";
+export const SESSION_KEY = "trustcert_admin_session";
 
 export type AdminSession = {
   email: string;

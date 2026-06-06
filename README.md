@@ -1,127 +1,202 @@
-# Guía de Contribución: Cómo hacer un Fork del Proyecto
+# TrustCert
 
-¡Gracias por tu interés en contribuir a este proyecto! Para comenzar a trabajar en tus propias modificaciones, debes crear una bifurcación (*fork*) del repositorio. A continuación, te explicamos el proceso paso a paso.
+Plataforma de certificación y verificación de documentos académicos sobre **Monad Blockchain**. Los documentos se hashean localmente con SHA-256 y el hash queda registrado de forma inmutable en un contrato inteligente. Cualquier persona puede verificar la autenticidad de un certificado sin necesidad de contactar a la institución.
 
----
-
-## 1. ¿Qué es un Fork?
-
-Un *fork* es una copia personal de este repositorio que se almacena en tu cuenta de GitHub. Te permite experimentar libremente con cambios (como corregir errores o añadir nuevas funcionalidades) sin afectar el proyecto original.
+Desarrollado para el **Hackathon Monad 2026**.
 
 ---
 
-## 2. Pasos para hacer un Fork y configurar tu Entorno
+## Stack tecnológico
 
-### Paso 1: Crear el Fork en GitHub
-1. Dirígete a la página principal de este repositorio en GitHub.
-2. En la esquina superior derecha de la página, haz clic en el botón **Fork**.
-3. Selecciona la cuenta personal o la organización de GitHub donde deseas guardar el fork.
-4. *(Opcional)* Puedes cambiar el nombre o mantener el original. Asegúrate de dejar seleccionada la opción para copiar únicamente la rama principal (`main`/`master`) si solo requieres trabajar en ella, o desmarcarla si necesitas conservar todas las ramas.
-5. Haz clic en el botón **Create fork**.
+### Frontend
 
-### Paso 2: Clonar tu Fork localmente
-Una vez creado el fork en tu perfil, clónalo en tu computadora local ejecutando el siguiente comando en tu terminal:
+| Tecnología | Versión | Rol |
+|---|---|---|
+| [Next.js](https://nextjs.org) | 15.2.8 | Framework React — App Router + SSR |
+| [React](https://react.dev) | 19 | UI library |
+| [TypeScript](https://www.typescriptlang.org) | 5.x | Tipado estático |
+| [Tailwind CSS](https://tailwindcss.com) | v4 | Estilos utility-first |
+| [DaisyUI](https://daisyui.com) | v5 | Componentes UI sobre Tailwind |
+| [Turbopack](https://turbo.build/pack) | incluido en Next.js 15 | Bundler ultra-rápido (modo dev) |
+| [Plus Jakarta Sans](https://fonts.google.com/specimen/Plus+Jakarta+Sans) | — | Tipografía headings (via `next/font`) |
+| [DM Sans](https://fonts.google.com/specimen/DM+Sans) | — | Tipografía body (via `next/font`) |
 
-```bash
-git clone https://github.com/TU_USUARIO/NOMBRE-DEL-REPOSITORIO.git
+### Web3 / Wallet
+
+| Tecnología | Versión | Rol |
+|---|---|---|
+| [viem](https://viem.sh) | 2.39.0 | Cliente Ethereum TypeScript-first |
+| [wagmi](https://wagmi.sh) | 2.19.5 | React hooks para Ethereum |
+| [RainbowKit](https://www.rainbowkit.com) | 2.2.9 | UI de conexión de wallets |
+| [@tanstack/react-query](https://tanstack.com/query) | v5 | Cache y sincronización de estado async |
+
+### Blockchain
+
+| Tecnología | Detalle |
+|---|---|
+| **Red** | Monad Testnet — EVM compatible |
+| **Chain ID** | `10143` |
+| **RPC** | `https://testnet-rpc.monad.xyz` |
+| **Lenguaje contratos** | Solidity `^0.8.30` |
+| **Librería contratos** | OpenZeppelin Contracts (`Ownable`) |
+| **Contrato desplegado** | `CertificateRegistry` |
+| **Dirección** | `0x5f8e6A8E75CF93C81a5F49afbccDF3cB74Eb5521` |
+
+### Smart Contract — `CertificateRegistry.sol`
+
+```solidity
+// Registra el hash SHA-256 de un documento vinculado a una institución y estudiante
+function registerCertificateHash(
+    bytes32 documentHash,
+    string calldata studentId,
+    string calldata institutionName
+) external
+
+// Verifica si un hash existe en blockchain y retorna sus metadatos
+function verifyCertificateHash(bytes32 documentHash)
+    external view
+    returns (bool, address, uint256, string memory, string memory)
 ```
-> [!NOTE]  
-> Asegúrate de reemplazar `TU_USUARIO` con tu nombre de usuario de GitHub y `NOMBRE-DEL-REPOSITORIO` con el nombre del proyecto.
 
-Accede al directorio del proyecto clonado:
-```bash
-cd NOMBRE-DEL-REPOSITORIO
+### Herramientas de desarrollo (contratos)
+
+| Tecnología | Versión | Rol |
+|---|---|---|
+| [Hardhat](https://hardhat.org) | 2.x | Entorno de desarrollo Ethereum |
+| [hardhat-deploy](https://github.com/wighawag/hardhat-deploy) | — | Despliegue declarativo de contratos |
+| [TypeChain](https://github.com/dethcrypto/TypeChain) | — | Tipos TypeScript para contratos |
+| [ethers.js](https://ethers.org) | v6 | Interacción con contratos en scripts |
+
+### Seguridad / Hashing
+
+| Tecnología | Detalle |
+|---|---|
+| **Algoritmo** | SHA-256 |
+| **API** | Web Crypto API — `crypto.subtle.digest()` |
+| **Privacidad** | El PDF se hashea 100% en el navegador. El archivo nunca se sube a ningún servidor |
+
+### Autenticación institucional
+
+| Componente | Detalle |
+|---|---|
+| **Tipo** | Credenciales predefinidas por institución |
+| **Sesión** | `localStorage` (sin backend, sin JWT) |
+| **Protección de rutas** | Redirección client-side vía `useAuth` hook |
+| **Instituciones** | Universidad Nacional de Colombia, Universidad de los Andes, Pontificia Universidad Javeriana, Universidad EAFIT |
+
+### Monorepo
+
+| Tecnología | Detalle |
+|---|---|
+| **Gestor** | Yarn Workspaces v3 |
+| **Paquetes** | `packages/nextjs` · `packages/hardhat` · `packages/noir` |
+| **Base** | scaffold-eth-2-noir |
+| **Pre-commit hooks** | Husky + lint-staged (ESLint + TypeScript check) |
+
+---
+
+## Arquitectura del flujo
+
 ```
-
-### Paso 3: Configurar el Repositorio Original como Remoto (Upstream)
-Para mantener tu fork actualizado con los últimos desarrollos y evitar conflictos al fusionar tu código, debes vincular el repositorio original como un control remoto adicional llamado `upstream`:
-
-```bash
-git remote add upstream https://github.com/PROPIETARIO-ORIGINAL/NOMBRE-DEL-REPOSITORIO.git
-```
-> [!NOTE]  
-> Reemplaza `PROPIETARIO-ORIGINAL` y `NOMBRE-DEL-REPOSITORIO` con los datos del repositorio original desde donde hiciste el fork.
-
-Para verificar que los remotos se configuraron correctamente, ejecuta:
-```bash
-git remote -v
-```
-Deberías ver una salida similar a esta:
-```text
-origin    https://github.com/TU_USUARIO/NOMBRE-DEL-REPOSITORIO.git (fetch)
-origin    https://github.com/TU_USUARIO/NOMBRE-DEL-REPOSITORIO.git (push)
-upstream  https://github.com/PROPIETARIO-ORIGINAL/NOMBRE-DEL-REPOSITORIO.git (fetch)
-upstream  https://github.com/PROPIETARIO-ORIGINAL/NOMBRE-DEL-REPOSITORIO.git (push)
+PDF (usuario)
+    │
+    ▼
+SHA-256 hash  ←── crypto.subtle (browser, sin red)
+    │
+    ├──► registerCertificateHash(hash, studentId, institution)
+    │         │
+    │         ▼
+    │    CertificateRegistry.sol  (Monad Testnet)
+    │         │
+    │         └── mapping: bytes32 → CertificateDoc
+    │
+    └──► verifyCertificateHash(hash)
+              │
+              ▼
+         { exists, registeredBy, registeredAt, studentId, institutionName }
 ```
 
 ---
 
-## 3. Flujo de Trabajo para Contribuir
+## Estructura del proyecto
 
-Sigue esta guía paso a paso cada vez que vayas a realizar una nueva contribución:
-
-### 1. Sincronizar tu Fork con el Repositorio Original
-Antes de crear una nueva rama de trabajo, es sumamente importante que incorpores las últimas actualizaciones del repositorio original a tu copia local:
-
-```bash
-# Asegúrate de estar en tu rama principal local
-git checkout main
-
-# Descarga los cambios más recientes del repositorio original (upstream)
-git fetch upstream
-
-# Fusiona los cambios descargados en tu rama local principal
-git merge upstream/main
-
-# Sube los cambios actualizados a tu fork en GitHub (origin)
-git push origin main
 ```
-
-### 2. Crear una nueva Rama (Branch)
-Trabaja siempre en una rama dedicada para la funcionalidad, mejora o corrección que planeas realizar. Evita hacer commits directamente sobre la rama `main`:
-
-```bash
-git checkout -b mi-nueva-contribucion
+Hackaton-Monad/
+├── packages/
+│   ├── nextjs/                  # Frontend Next.js
+│   │   ├── app/
+│   │   │   ├── page.tsx         # Landing page
+│   │   │   ├── certificate-verify/   # Verificación pública
+│   │   │   └── admin/           # Panel institucional (protegido)
+│   │   ├── components/
+│   │   │   ├── Header.tsx
+│   │   │   └── Footer.tsx
+│   │   ├── lib/auth/            # Sistema de autenticación
+│   │   │   ├── config.ts        # Usuarios predefinidos
+│   │   │   └── useAuth.ts       # Hook de sesión
+│   │   ├── hooks/
+│   │   │   └── useScrollReveal.ts
+│   │   └── styles/globals.css   # Design system + animaciones
+│   │
+│   ├── hardhat/                 # Contratos inteligentes
+│   │   ├── contracts/
+│   │   │   └── CertificateRegistry.sol
+│   │   ├── deploy/
+│   │   │   └── 03_deploy_certificate_registry.ts
+│   │   └── deployments/monadTestnet/
+│   │
+│   └── noir/                    # Circuitos ZK (scaffolding)
+│
+├── package.json                 # Yarn workspaces root
+└── README.md
 ```
-*(Elige un nombre descriptivo y en minúsculas para tu rama, por ejemplo: `fix-login-error` o `feat-dark-mode`)*
-
-### 3. Realizar y Confirmar Cambios
-Realiza las modificaciones deseadas en el código. Para guardar el avance de tus cambios:
-
-```bash
-# Verifica qué archivos han sido modificados o agregados
-git status
-
-# Añade los archivos correspondientes al área de preparación (staging)
-git add archivo_modificado.js
-
-# Registra tus cambios con un mensaje de commit descriptivo
-git commit -m "feat: descripción concisa y clara del cambio aportado"
-```
-
-### 4. Subir la Rama a tu Fork
-Envía tu rama de trabajo con tus nuevos commits a tu repositorio remoto en GitHub:
-
-```bash
-git push origin mi-nueva-contribucion
-```
-
-### 5. Crear un Pull Request (PR)
-1. Abre tu navegador y ve a tu fork en GitHub (`https://github.com/TU_USUARIO/NOMBRE-DEL-REPOSITORIO`).
-2. Verás un banner superior de color amarillo que te indica que has subido una nueva rama. Haz clic en el botón **Compare & pull request**.
-3. Si el banner no aparece, dirígete a la pestaña **Pull requests** en el repositorio original y haz clic en **New pull request**. Luego, selecciona la opción *"compare across forks"* para enlazar tu fork y la rama específica.
-4. Escribe un título representativo y describe de forma detallada qué cambios realiza tu código, por qué son necesarios y cómo pueden probarse.
-5. Haz clic en **Create pull request**.
-
-¡Excelente trabajo! 🎉 El equipo de mantenedores del proyecto revisará tu propuesta, aportará comentarios si es necesario y, una vez aprobada, la fusionará con la rama principal del proyecto original.
 
 ---
 
-## Recursos Adicionales
+## Comandos principales
 
-* [Documentación Oficial de GitHub: Trabajar con Forks](https://docs.github.com/es/pull-requests/collaborating-with-pull-requests/working-with-forks)
-* [Documentación Oficial de GitHub: Sincronizar un Fork](https://docs.github.com/es/pull-requests/collaborating-with-pull-requests/working-with-forks/syncing-a-fork)
-* [Guía interactiva para resolver conflictos de fusión (merge conflicts)](https://docs.github.com/es/pull-requests/collaborating-with-pull-requests/addressing-merge-conflicts)
+```bash
+# Instalar dependencias
+yarn install
+
+# Desarrollo (con Turbopack)
+yarn start
+
+# Build de producción
+yarn next:build
+
+# Servir producción
+yarn next:serve
+
+# Desplegar contratos a Monad Testnet
+cd packages/hardhat
+npx hardhat deploy --network monadTestnet --tags CertificateRegistry
+```
 
 ---
-*¡Feliz código!* 🚀
+
+## Variables de entorno
+
+```bash
+# packages/hardhat/.env  (NO commitear)
+__RUNTIME_DEPLOYER_PRIVATE_KEY=0x...
+```
+
+---
+
+## Credenciales de demo (panel admin)
+
+| Institución | Email | Contraseña |
+|---|---|---|
+| Universidad Nacional de Colombia | admin@uninacional.edu.co | uninacional2024 |
+| Universidad de los Andes | admin@uniandes.edu.co | uniandes2024 |
+| Pontificia Universidad Javeriana | admin@javeriana.edu.co | javeriana2024 |
+| Universidad EAFIT | admin@eafit.edu.co | eafit2024 |
+
+> Las instituciones conectan su wallet de Monad para firmar las transacciones de certificación.
+
+---
+
+## Licencia
+
+MIT
