@@ -1,51 +1,144 @@
 import React from "react";
-import { HeartIcon } from "@heroicons/react/24/outline";
-import { SwitchTheme } from "~~/components/SwitchTheme";
-import { BuidlGuidlLogo } from "~~/components/assets/BuidlGuidlLogo";
 
-/**
- * Site footer
- */
 export const Footer = () => {
   return (
-    <div className="min-h-0 py-5 px-1 mb-11 lg:mb-0">
-      <div className="fixed flex justify-end items-center w-full z-10 p-4 bottom-0 left-0 pointer-events-none">
-        <div className="pointer-events-auto">
-          <SwitchTheme />
-        </div>
-      </div>
-      <div className="w-full">
-        <ul className="menu menu-horizontal w-full">
-          <div className="flex justify-center items-center gap-2 text-sm w-full">
-            <div className="text-center">
-              <a href="https://github.com/scaffold-eth/se-2" target="_blank" rel="noreferrer" className="link">
-                Fork me
-              </a>
-            </div>
-            <span>·</span>
-            <div className="flex justify-center items-center gap-2">
-              <p className="m-0 text-center">
-                Built with <HeartIcon className="inline-block h-4 w-4" /> at
-              </p>
-              <a
-                className="flex justify-center items-center gap-1"
-                href="https://buidlguidl.com/"
-                target="_blank"
-                rel="noreferrer"
+    <footer
+      style={{
+        borderTop: "1px solid var(--border)",
+        background: "var(--navy-950)",
+        padding: "40px 0",
+        marginTop: "auto",
+      }}
+    >
+      <div className="ent-container" style={{ display: "flex", flexDirection: "column", gap: "32px" }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "flex-start",
+            flexWrap: "wrap",
+            gap: "24px",
+          }}
+        >
+          {/* Brand */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+              <div
+                style={{
+                  width: "28px",
+                  height: "28px",
+                  background: "var(--blue)",
+                  borderRadius: "6px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontSize: "0.85rem",
+                  fontWeight: 800,
+                  color: "white",
+                  fontFamily: "var(--font-heading)",
+                }}
               >
-                <BuidlGuidlLogo className="w-3 h-5 pb-1" />
-                <span className="link">BuidlGuidl</span>
-              </a>
+                Z
+              </div>
+              <span
+                style={{ fontFamily: "var(--font-heading)", fontWeight: 700, color: "var(--text)", fontSize: "0.9rem" }}
+              >
+                ZK Cert
+              </span>
             </div>
-            <span>·</span>
-            <div className="text-center">
-              <a href="https://t.me/joinchat/KByvmRe5wkR-8F_zz6AjpA" target="_blank" rel="noreferrer" className="link">
-                Support
-              </a>
+            <p
+              style={{ color: "var(--text-muted)", fontSize: "0.8rem", margin: 0, maxWidth: "240px", lineHeight: 1.6 }}
+            >
+              Certificación de documentos académicos sobre Monad blockchain.
+            </p>
+          </div>
+
+          {/* Links */}
+          <div style={{ display: "flex", gap: "48px", flexWrap: "wrap" }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+              <div
+                style={{
+                  fontFamily: "var(--font-heading)",
+                  fontWeight: 600,
+                  color: "var(--text)",
+                  fontSize: "0.8rem",
+                  textTransform: "uppercase",
+                  letterSpacing: "0.06em",
+                }}
+              >
+                Plataforma
+              </div>
+              {[
+                { label: "Inicio", href: "/" },
+                { label: "Verificar documento", href: "/certificate-verify" },
+                { label: "Panel admin", href: "/admin" },
+              ].map(l => (
+                <a
+                  key={l.href}
+                  href={l.href}
+                  style={{
+                    color: "var(--text-muted)",
+                    fontSize: "0.85rem",
+                    textDecoration: "none",
+                    transition: "color 0.2s",
+                  }}
+                  onMouseEnter={e => ((e.target as HTMLElement).style.color = "var(--text)")}
+                  onMouseLeave={e => ((e.target as HTMLElement).style.color = "var(--text-muted)")}
+                >
+                  {l.label}
+                </a>
+              ))}
+            </div>
+
+            <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+              <div
+                style={{
+                  fontFamily: "var(--font-heading)",
+                  fontWeight: 600,
+                  color: "var(--text)",
+                  fontSize: "0.8rem",
+                  textTransform: "uppercase",
+                  letterSpacing: "0.06em",
+                }}
+              >
+                Tecnología
+              </div>
+              {["Monad Testnet", "SHA-256", "Solidity", "Next.js"].map(t => (
+                <span key={t} style={{ color: "var(--text-muted)", fontSize: "0.85rem" }}>
+                  {t}
+                </span>
+              ))}
             </div>
           </div>
-        </ul>
+        </div>
+
+        {/* Bottom */}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            borderTop: "1px solid var(--border)",
+            paddingTop: "24px",
+            flexWrap: "wrap",
+            gap: "12px",
+          }}
+        >
+          <span style={{ color: "var(--text-muted)", fontSize: "0.8rem" }}>© 2026 ZK Cert — Hackathon Monad</span>
+          <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+            <span
+              style={{
+                width: "6px",
+                height: "6px",
+                borderRadius: "50%",
+                background: "var(--green)",
+                display: "inline-block",
+              }}
+            />
+            <span style={{ color: "var(--text-muted)", fontSize: "0.8rem" }}>Monad Testnet activo</span>
+          </div>
+        </div>
       </div>
-    </div>
+    </footer>
   );
 };

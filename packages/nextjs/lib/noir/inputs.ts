@@ -1,5 +1,5 @@
 import { DEFAULT_ISSUER_PRIVATE_KEY } from "./constants";
-import type { AgeProofForm, AgeProofInputs, SignedBirthClaim } from "./types";
+import type { AgeProofForm, AgeProofInputs, CertificateForm, SignedBirthClaim, SignedGradeClaim } from "./types";
 import { secp256k1 } from "@noble/curves/secp256k1";
 import { blake2s } from "@noble/hashes/blake2s";
 import { bytesToHex, hexToBytes, isAddress } from "viem";
@@ -61,5 +61,40 @@ export const buildAgeProofInputs = ({
     subject_eth_address: toByteArray(account, 20),
     issuer_signed_message: signatureBytes,
     subject_birth_year: birthYear,
+  };
+};
+
+export const signGradeClaim = async (
+  account: `0x${string}`,
+  grade: number,
+  issuerPrivateKey: `0x${string}` = DEFAULT_ISSUER_PRIVATE_KEY,
+): Promise<SignedGradeClaim> => {
+  const privateKeyBytes = hexToBytes(issuerPrivateKey);
+  const claimHash = blake2s(getClaimPayload(account, grade));
+  const signature = secp256k1.sign(claimHash, privateKeyBytes).toCompactRawBytes();
+  const publicKey = secp256k1.getPublicKey(privateKeyBytes, false);
+
+  return {
+    signedMessage: bytesToHex(signature),
+    signerPublicKey: bytesToHex(publicKey),
+  };
+};
+
+export const buildCertificateProofInputs = ({
+  minimumGrade,
+  studentGrade,
+  account,
+  signedClaim,
+}: CertificateForm & { account: `0x${string}`; signedClaim: SignedGradeClaim }): AgeProofInputs => {
+  const publicKeyBytes = toByteArray(signedClaim.signerPublicKey, 65);
+  const signatureBytes = toByteArray(signedClaim.signedMessage, 64);
+
+  return {
+    required_birth_year: minimumGrade,
+    issuer_public_key_x: publicKeyBytes.slice(1, 33),
+    issuer_public_key_y: publicKeyBytes.slice(33),
+    subject_eth_address: toByteArray(account, 20),
+    issuer_signed_message: signatureBytes,
+    subject_birth_year: studentGrade,
   };
 };

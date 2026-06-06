@@ -5,9 +5,9 @@
 import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 
 const deployedContracts = {
-  31337: {
+  10143: {
     BalloonToken: {
-      address: "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
+      address: "0x47e3d33fB0f3AB05B0a1A768E8dBB373418AB737",
       abi: [
         {
           inputs: [
@@ -417,10 +417,10 @@ const deployedContracts = {
         renounceOwnership: "@openzeppelin/contracts/access/Ownable.sol",
         transferOwnership: "@openzeppelin/contracts/access/Ownable.sol",
       },
-      deployedOnBlock: 5,
+      deployedOnBlock: 36572159,
     },
     BalloonVendor: {
-      address: "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
+      address: "0x818bf4442F2FE189967cA531b3D951Ca2462beAD",
       abi: [
         {
           inputs: [
@@ -761,10 +761,249 @@ const deployedContracts = {
         renounceOwnership: "@openzeppelin/contracts/access/Ownable.sol",
         transferOwnership: "@openzeppelin/contracts/access/Ownable.sol",
       },
-      deployedOnBlock: 7,
+      deployedOnBlock: 36572173,
+    },
+    CertificateRegistry: {
+      address: "0x5f8e6A8E75CF93C81a5F49afbccDF3cB74Eb5521",
+      abi: [
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "initialOwner",
+              type: "address",
+            },
+          ],
+          stateMutability: "nonpayable",
+          type: "constructor",
+        },
+        {
+          inputs: [],
+          name: "HashAlreadyRegistered",
+          type: "error",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "owner",
+              type: "address",
+            },
+          ],
+          name: "OwnableInvalidOwner",
+          type: "error",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "OwnableUnauthorizedAccount",
+          type: "error",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "bytes32",
+              name: "documentHash",
+              type: "bytes32",
+            },
+            {
+              indexed: true,
+              internalType: "address",
+              name: "registeredBy",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "string",
+              name: "studentId",
+              type: "string",
+            },
+            {
+              indexed: false,
+              internalType: "string",
+              name: "institutionName",
+              type: "string",
+            },
+            {
+              indexed: false,
+              internalType: "uint256",
+              name: "timestamp",
+              type: "uint256",
+            },
+          ],
+          name: "CertificateHashRegistered",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "address",
+              name: "previousOwner",
+              type: "address",
+            },
+            {
+              indexed: true,
+              internalType: "address",
+              name: "newOwner",
+              type: "address",
+            },
+          ],
+          name: "OwnershipTransferred",
+          type: "event",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes32",
+              name: "",
+              type: "bytes32",
+            },
+          ],
+          name: "certificateHashes",
+          outputs: [
+            {
+              internalType: "address",
+              name: "registeredBy",
+              type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "registeredAt",
+              type: "uint256",
+            },
+            {
+              internalType: "string",
+              name: "studentId",
+              type: "string",
+            },
+            {
+              internalType: "string",
+              name: "institutionName",
+              type: "string",
+            },
+            {
+              internalType: "bool",
+              name: "exists",
+              type: "bool",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "owner",
+          outputs: [
+            {
+              internalType: "address",
+              name: "",
+              type: "address",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes32",
+              name: "documentHash",
+              type: "bytes32",
+            },
+            {
+              internalType: "string",
+              name: "studentId",
+              type: "string",
+            },
+            {
+              internalType: "string",
+              name: "institutionName",
+              type: "string",
+            },
+          ],
+          name: "registerCertificateHash",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "renounceOwnership",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "newOwner",
+              type: "address",
+            },
+          ],
+          name: "transferOwnership",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes32",
+              name: "documentHash",
+              type: "bytes32",
+            },
+          ],
+          name: "verifyCertificateHash",
+          outputs: [
+            {
+              internalType: "bool",
+              name: "",
+              type: "bool",
+            },
+            {
+              internalType: "address",
+              name: "",
+              type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+            {
+              internalType: "string",
+              name: "",
+              type: "string",
+            },
+            {
+              internalType: "string",
+              name: "",
+              type: "string",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+      ],
+      inheritedFunctions: {
+        owner: "@openzeppelin/contracts/access/Ownable.sol",
+        renounceOwnership: "@openzeppelin/contracts/access/Ownable.sol",
+        transferOwnership: "@openzeppelin/contracts/access/Ownable.sol",
+      },
+      deployedOnBlock: 36594458,
     },
     VerifierLessThanSignedAge: {
-      address: "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+      address: "0x10e1b70E2D4c1b6dA4b0aBee66A24fbFb4e8B19a",
       abi: [
         {
           inputs: [],
@@ -843,10 +1082,10 @@ const deployedContracts = {
         },
       ],
       inheritedFunctions: {},
-      deployedOnBlock: 3,
+      deployedOnBlock: 36572145,
     },
     VerifierLessThanSignedAgeLessThanSignedAgeZKTranscriptLib: {
-      address: "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+      address: "0x220aF67fc4614e6Cdf7409754c68D37072B93dAd",
       abi: [
         {
           inputs: [
@@ -1231,7 +1470,7 @@ const deployedContracts = {
         },
       ],
       inheritedFunctions: {},
-      deployedOnBlock: 1,
+      deployedOnBlock: 36572140,
     },
   },
 } as const;

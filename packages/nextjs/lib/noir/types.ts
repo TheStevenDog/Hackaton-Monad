@@ -43,3 +43,14 @@ export type AgeProofInputs = {
   issuer_signed_message: number[];
   subject_birth_year: number;
 };
+
+export type CertificateForm = {
+  minimumGrade: number;
+  studentGrade: number;
+  issuerPrivateKey: `0x${string}`;
+};
+
+export type SignedGradeClaim = {
+  signedMessage: `0x${string}`;
+  signerPublicKey: `0x${string}`;
+};
