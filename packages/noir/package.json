@@ -1,0 +1,19 @@
+{
+  "name": "@se-2/noir",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "compile": "bash ./scripts/compile_circuits.sh",
+    "test": "bash ./scripts/test_circuits.sh",
+    "export": "yarn export:artifacts && yarn export:verifiers",
+    "export:artifacts": "yarn compile && tsx scripts/export_artifacts.ts",
+    "export:verifiers": "bash ./scripts/export_verifiers.sh",
+    "circuit:new": "nargo new circuits/$@"
+  },
+  "devDependencies": {
+    "@types/node": "^22.19.7",
+    "prettier": "^3.5.3",
+    "tsx": "^4.21.0",
+    "typescript": "^5.8.3"
+  }
+}
