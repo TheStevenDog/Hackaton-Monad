@@ -22,43 +22,96 @@ export default function AdminPage() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          background: "var(--navy-900)",
+          background: "var(--surface-0)",
         }}
       >
-        <div style={{ color: "var(--text-muted)", fontFamily: "var(--font-heading)" }}>Cargando...</div>
+        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+          <span
+            style={{
+              width: "16px",
+              height: "16px",
+              border: "2px solid rgba(255,255,255,0.1)",
+              borderTopColor: "var(--blue)",
+              borderRadius: "50%",
+              animation: "rotateSpin 0.7s linear infinite",
+              display: "inline-block",
+            }}
+          />
+          <span style={{ color: "var(--text-tertiary)", fontFamily: "var(--font-heading)", fontSize: "0.85rem" }}>
+            Cargando...
+          </span>
+        </div>
       </div>
     );
   }
 
   return (
-    <div style={{ background: "var(--navy-900)", minHeight: "100vh", fontFamily: "var(--font-body)" }}>
-      <div className="ent-container" style={{ paddingTop: "40px", paddingBottom: "80px" }}>
+    <div
+      style={{
+        background: "var(--surface-0)",
+        minHeight: "100vh",
+        fontFamily: "var(--font-body)",
+        position: "relative",
+      }}
+    >
+      {/* Background radial */}
+      <div
+        style={{
+          position: "fixed",
+          inset: 0,
+          background: "radial-gradient(ellipse 60% 40% at 50% -5%, rgba(37,99,235,0.07) 0%, transparent 60%)",
+          pointerEvents: "none",
+          zIndex: 0,
+        }}
+      />
+
+      <div
+        className="ent-container"
+        style={{ paddingTop: "40px", paddingBottom: "80px", position: "relative", zIndex: 1 }}
+      >
         {/* Admin header bar */}
         <div
           style={{
-            background: "var(--navy-800)",
+            background: "var(--surface-1)",
             border: "1px solid var(--border)",
-            borderRadius: "12px",
+            borderRadius: "14px",
             padding: "16px 24px",
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
-            marginBottom: "40px",
+            marginBottom: "36px",
             flexWrap: "wrap",
             gap: "12px",
+            boxShadow: "0 1px 0 rgba(255,255,255,0.04) inset",
+            position: "relative",
+            overflow: "hidden",
           }}
         >
+          {/* Top accent */}
+          <div
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              right: 0,
+              height: "1px",
+              background: "linear-gradient(90deg, transparent, rgba(37,99,235,0.4), rgba(14,165,233,0.3), transparent)",
+            }}
+          />
+
           <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
             <div
               style={{
                 width: "40px",
                 height: "40px",
-                background: "linear-gradient(135deg, var(--blue), var(--cyan))",
+                background: "linear-gradient(135deg, var(--blue) 0%, var(--cyan) 100%)",
                 borderRadius: "10px",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                fontSize: "1.1rem",
+                fontSize: "1.15rem",
+                flexShrink: 0,
+                boxShadow: "0 4px 12px rgba(37,99,235,0.3)",
               }}
             >
               🏛
@@ -68,19 +121,44 @@ export default function AdminPage() {
                 style={{
                   fontFamily: "var(--font-heading)",
                   fontWeight: 700,
-                  color: "var(--text)",
-                  fontSize: "0.95rem",
+                  color: "var(--text-primary)",
+                  fontSize: "0.92rem",
+                  letterSpacing: "-0.01em",
                 }}
               >
                 {session.institution}
               </div>
-              <div style={{ color: "var(--text-muted)", fontSize: "0.78rem" }}>
+              <div
+                style={{
+                  color: "var(--text-tertiary)",
+                  fontSize: "0.73rem",
+                  fontFamily: "var(--font-body)",
+                  marginTop: "1px",
+                }}
+              >
                 {session.role} · {session.email}
               </div>
             </div>
           </div>
-          <div style={{ display: "flex", alignItems: "center", gap: "12px", flexWrap: "wrap" }}>
-            <div className="ent-badge" style={{ color: "var(--green)", borderColor: "rgba(16,185,129,0.3)" }}>
+
+          <div style={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap" }}>
+            <div
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "6px",
+                padding: "5px 12px",
+                borderRadius: "100px",
+                border: "1px solid rgba(16,185,129,0.25)",
+                background: "rgba(16,185,129,0.07)",
+                fontSize: "0.7rem",
+                fontWeight: 700,
+                color: "var(--green)",
+                letterSpacing: "0.08em",
+                textTransform: "uppercase",
+                fontFamily: "var(--font-heading)",
+              }}
+            >
               <span
                 style={{
                   width: "6px",
@@ -88,6 +166,7 @@ export default function AdminPage() {
                   borderRadius: "50%",
                   background: "var(--green)",
                   display: "inline-block",
+                  animation: "dotPulse 2.2s ease-in-out infinite",
                 }}
               />
               Sesión activa
@@ -95,7 +174,7 @@ export default function AdminPage() {
             <RainbowKitCustomConnectButton />
             <button
               className="ent-btn-outline"
-              style={{ padding: "8px 16px", fontSize: "0.8rem" }}
+              style={{ padding: "7px 14px", fontSize: "0.78rem" }}
               onClick={() => {
                 logout();
                 router.push("/admin/login");
@@ -107,22 +186,40 @@ export default function AdminPage() {
         </div>
 
         {/* Page title */}
-        <div style={{ marginBottom: "32px", paddingBottom: "24px", borderBottom: "1px solid var(--border)" }}>
-          <div className="ent-badge" style={{ marginBottom: "14px" }}>
-            Panel de administración
-          </div>
+        <div
+          style={{
+            marginBottom: "36px",
+            paddingBottom: "28px",
+            borderBottom: "1px solid var(--border-subtle)",
+          }}
+        >
+          <span
+            style={{
+              fontFamily: "var(--font-heading)",
+              fontSize: "0.68rem",
+              fontWeight: 700,
+              color: "var(--text-tertiary)",
+              letterSpacing: "0.14em",
+              textTransform: "uppercase",
+              display: "block",
+              marginBottom: "10px",
+            }}
+          >
+            ◆ Panel de administración
+          </span>
           <h1
             style={{
               fontFamily: "var(--font-heading)",
-              fontSize: "clamp(1.6rem, 3vw, 2.2rem)",
+              fontSize: "clamp(1.5rem, 2.5vw, 2rem)",
               fontWeight: 800,
-              color: "var(--text)",
-              margin: "0 0 8px",
+              color: "var(--text-primary)",
+              letterSpacing: "-0.03em",
+              margin: "0 0 10px",
             }}
           >
             Certificar documentos
           </h1>
-          <p style={{ color: "var(--text-muted)", fontSize: "0.9rem", margin: 0 }}>
+          <p style={{ color: "var(--text-secondary)", fontSize: "0.88rem", margin: 0, maxWidth: "520px" }}>
             Registra certificados en Monad blockchain. El documento queda vinculado a tu institución de forma
             permanente.
           </p>
